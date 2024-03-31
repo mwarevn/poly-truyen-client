@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ConnectAPI {
 
-    public String host = "172.20.10.3:3001";
+    public String host = "10.42.0.1:3001";
     public String API_URL = "http://" + host + "/";
     public Retrofit connect = new Retrofit.Builder().baseUrl(API_URL).addConverterFactory(GsonConverterFactory.create()).build();
 

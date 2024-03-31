@@ -24,20 +24,21 @@
         <LinearLayout
             android:id="@+id/layout_read_comic_content"
             android:layout_width="match_parent"
-            android:layout_height="900dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:layout_width="match_parent"
-                android:layout_height="900dp"
-                android:id="@+id/swipeRefresh">
+<!--            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="900dp"-->
+<!--                android:id="@+id/swipeRefresh">-->
 
                 <androidx.recyclerview.widget.RecyclerView
+
                     android:id="@+id/rvComicContents"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="900sp" />
 
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+<!--            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
         </LinearLayout>
 
     </ScrollView>

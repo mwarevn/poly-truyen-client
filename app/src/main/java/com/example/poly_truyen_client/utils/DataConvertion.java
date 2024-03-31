@@ -43,7 +43,7 @@ public class DataConvertion {
             totalHeight += listItem.getMeasuredHeight();
         }
         ViewGroup.LayoutParams params = recyclerView.getLayoutParams();
-        params.height = totalHeight + (recyclerView.getPaddingTop() + recyclerView.getPaddingBottom());
+        params.height = 150 + totalHeight + (recyclerView.getPaddingTop() + recyclerView.getPaddingBottom());
         recyclerView.setLayoutParams(params);
     }
 }

@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 public class ReadComicActivity extends AppCompatActivity {
 
-    private RecyclerView rvComicContents;
+    public RecyclerView rvComicContents;
     private ComicContentsAdapter comicContentsAdapter;
     private ArrayList<String> listComicContents = new ArrayList<>();
 
@@ -58,24 +58,23 @@ public class ReadComicActivity extends AppCompatActivity {
 
         // set list contents
         listComicContents = comic.getContents();
-        comicContentsAdapter = new ComicContentsAdapter(listComicContents);
+        comicContentsAdapter = new ComicContentsAdapter(listComicContents, rvComicContents);
 
         rvComicContents.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         rvComicContents.setAdapter(comicContentsAdapter);
-        new DataConvertion().setRecyclerViewHeight(rvComicContents);
 
-        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipeRefresh);
+//        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipeRefresh);
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                rvComicContents.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-                rvComicContents.setAdapter(comicContentsAdapter);
+//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                rvComicContents.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+//                rvComicContents.setAdapter(comicContentsAdapter);
 //                new DataConvertion().setRecyclerViewHeight(rvComicContents);
-
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
+//
+//                swipeRefreshLayout.setRefreshing(false);
+//            }
+//        });
 
 
         findViewById(R.id.ivBackBtn).setOnClickListener(v -> {

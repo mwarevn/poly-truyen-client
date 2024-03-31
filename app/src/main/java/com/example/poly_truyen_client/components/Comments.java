@@ -87,7 +87,7 @@ public class Comments extends LinearLayout {
                     rvComments.setAdapter(new CommentsAdapter(listCmt, context));
                     rvComments.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
 
-//                    new DataConvertion().setRecyclerViewHeight(rvComments);
+                    new DataConvertion().setRecyclerViewHeight(rvComments);
                 }
             }
 

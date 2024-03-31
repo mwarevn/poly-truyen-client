@@ -1,6 +1,8 @@
 package com.example.poly_truyen_client.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +14,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.poly_truyen_client.R;
 import com.example.poly_truyen_client.api.ConnectAPI;
 import com.example.poly_truyen_client.models.Comment;
+import com.example.poly_truyen_client.utils.DataConvertion;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 
 public class ComicContentsAdapter extends RecyclerView.Adapter<ComicContentsAdapter.ViewHolderComicContentsAdapter> {
 
     private ArrayList<String> listContents = new ArrayList<>();
+    private Context context;
+    private RecyclerView recyclerView;
 
-    public ComicContentsAdapter(ArrayList<String> listContents) {
+    public ComicContentsAdapter(ArrayList<String> listContents, RecyclerView recyclerView) {
         this.listContents = listContents;
+        this.recyclerView = recyclerView;
     }
 
     @NonNull
@@ -33,9 +41,9 @@ public class ComicContentsAdapter extends RecyclerView.Adapter<ComicContentsAdap
     @Override
     public void onBindViewHolder(@NonNull ViewHolderComicContentsAdapter holder, int position) {
         String image = listContents.get(holder.getAdapterPosition());
-
         Picasso.get().load(new ConnectAPI().API_URL + "images/" + image).into(holder.ivContent);
     }
+
 
     @Override
     public int getItemCount() {
@@ -50,4 +58,6 @@ public class ComicContentsAdapter extends RecyclerView.Adapter<ComicContentsAdap
             ivContent = itemView.findViewById(R.id.ivContent);
         }
     }
+
+
 }

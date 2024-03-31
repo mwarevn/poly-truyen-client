@@ -5,8 +5,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFF"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context=".ui.home.HomeFragment">
+
+    <!--  Header  -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="25sp"
+        android:paddingVertical="8sp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="64sp"
+            android:layout_height="64sp"
+            android:layout_margin="5sp"
+            android:elevation="10sp"
+            app:cardCornerRadius="1000sp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="60sp"
+                android:layout_height="60sp"
+                android:layout_gravity="center"
+                android:elevation="0sp"
+                app:cardCornerRadius="1000sp"
+                app:cardElevation="0sp">
+
+                <ImageView
+                    android:id="@+id/userAvatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10sp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#303030"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,63 +74,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <!--  Header  -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="25sp"
-                android:paddingVertical="8sp">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="64sp"
-                    android:layout_height="64sp"
-                    android:layout_margin="5sp"
-                    android:elevation="10sp"
-                    app:cardCornerRadius="1000sp">
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="60sp"
-                        android:layout_height="60sp"
-                        android:layout_gravity="center"
-                        android:elevation="0sp"
-                        app:cardCornerRadius="1000sp"
-                        app:cardElevation="0sp">
-
-                        <ImageView
-                            android:id="@+id/userAvatar"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-
-                    </androidx.cardview.widget.CardView>
-
-                </androidx.cardview.widget.CardView>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="10sp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tvEmail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tvName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="#303030"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-            </LinearLayout>
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
@@ -117,6 +118,7 @@
                 android:layout_marginHorizontal="28sp"
                 android:layout_marginTop="8sp"
                 android:layout_marginBottom="4sp"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -127,30 +129,31 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
+                <!--  sort by cats  -->
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Thể loại: "
+                        android:textColor="#1e1e1e"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/spinnerCats"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
             </LinearLayout>
 
 
-            <!--  sort by cats  -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="28sp"
-                android:layout_marginBottom="4sp"
-                android:gravity="center"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Thể loại: "
-                    android:textColor="#1e1e1e"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <Spinner
-                    android:id="@+id/spinnerCats"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
 
             </LinearLayout>
                 <androidx.recyclerview.widget.RecyclerView
