@@ -1,5 +1,7 @@
 package com.example.poly_truyen_client.ui.history;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,11 +13,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.poly_truyen_client.R;
+import com.example.poly_truyen_client.adapters.CommentsAdapter;
 import com.example.poly_truyen_client.adapters.HistoryAdapter;
 import com.example.poly_truyen_client.api.ConnectAPI;
 import com.example.poly_truyen_client.api.HistoryServices;
@@ -44,29 +48,31 @@ public class HistoryFragment extends Fragment {
 
     public HistoryFragment() {
     }
-    public static HistoryFragment newInstance(String param1, String param2) {
+    public static HistoryFragment newInstance() {
         HistoryFragment fragment = new HistoryFragment();
         return fragment;
     }
 
     public void fetchCache(String idUser, Context context) {
         Call<ArrayList<Comic>> arrayListCall = historyServices.getCaches(idUser);
+
         arrayListCall.enqueue(new Callback<ArrayList<Comic>>() {
             @Override
             public void onResponse(Call<ArrayList<Comic>> call, Response<ArrayList<Comic>> response) {
                 if (response.isSuccessful() && response.body() != null) {
 
-                    ArrayList<Comic> listTmp = new ArrayList<>();
+                    ArrayList<Comic> listTmp = new ArrayList<>(response.body());
+                    listTmp.clear();
                     listTmp.addAll(response.body());
                     Collections.reverse(listTmp);
-
                     historyAdapter.updateListComic(listTmp);
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<Comic>> call, Throwable throwable) {
-
+                Log.d(TAG, "onFailure: eeeeeeeeeee" );
+                throwable.printStackTrace();
             }
         });
     }
@@ -91,7 +97,7 @@ public class HistoryFragment extends Fragment {
         sharedPreferences = view.getContext().getSharedPreferences("poly_comic", Context.MODE_PRIVATE);
         LoggedUser = new Gson().fromJson(sharedPreferences.getString("user", ""), User.class);
 
-        historyAdapter = new HistoryAdapter(list, getActivity());
+        historyAdapter = new HistoryAdapter(new ArrayList<Comic>(), getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(historyAdapter);
 

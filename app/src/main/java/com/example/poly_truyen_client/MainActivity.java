@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new SocketConfig();
+        // new SocketConfig();
         SocketManager socketManager = SocketManager.getInstance(new ConnectAPI().API_URL);
         socket = socketManager.getSocket();
         socket.on("ServerPostNewComic", new Emitter.Listener() {

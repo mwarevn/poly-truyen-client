@@ -3,7 +3,11 @@ package com.example.poly_truyen_client.utils;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,5 +33,17 @@ public class DataConvertion {
     public void decorDialogBackground(Dialog dialog) {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    }
+
+    public void setRecyclerViewHeight(RecyclerView recyclerView) {
+        int totalHeight = 0;
+        for (int i = 0; i < recyclerView.getAdapter().getItemCount(); i++) {
+            View listItem = recyclerView.getAdapter().onCreateViewHolder(recyclerView, recyclerView.getAdapter().getItemViewType(i)).itemView;
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = recyclerView.getLayoutParams();
+        params.height = totalHeight + (recyclerView.getPaddingTop() + recyclerView.getPaddingBottom());
+        recyclerView.setLayoutParams(params);
     }
 }

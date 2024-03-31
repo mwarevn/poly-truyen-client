@@ -18,6 +18,7 @@ import com.example.poly_truyen_client.adapters.ComicContentsAdapter;
 import com.example.poly_truyen_client.adapters.CommentsAdapter;
 import com.example.poly_truyen_client.components.Comments;
 import com.example.poly_truyen_client.models.Comic;
+import com.example.poly_truyen_client.utils.DataConvertion;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -61,6 +62,7 @@ public class ReadComicActivity extends AppCompatActivity {
 
         rvComicContents.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         rvComicContents.setAdapter(comicContentsAdapter);
+        new DataConvertion().setRecyclerViewHeight(rvComicContents);
 
         SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipeRefresh);
 
@@ -69,6 +71,7 @@ public class ReadComicActivity extends AppCompatActivity {
             public void onRefresh() {
                 rvComicContents.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
                 rvComicContents.setAdapter(comicContentsAdapter);
+//                new DataConvertion().setRecyclerViewHeight(rvComicContents);
 
                 swipeRefreshLayout.setRefreshing(false);
             }

@@ -18,6 +18,9 @@ public interface ComicServices {
     @GET("comic/get-all-comics")
     Call<ArrayList<Comic>> getAllComics();
 
+    @GET("comic/top-popular/{top}")
+    Call<ArrayList<Comic>> getTopPopular(@Path("top") String top);
+
     @GET("comment/comic/{id}")
     Call<ArrayList<Comment>> getCommentsOfComic(@Path("id") String id);
 
@@ -29,4 +32,8 @@ public interface ComicServices {
 
     @PUT("comment/update/{id}")
     Call<Comment> updateCommentById(@Path("id") String id, @Body JsonObject contentPayload);
+
+    @GET("comment/get-all")
+    Call<ArrayList<Comment>> getAllComments();
+
 }

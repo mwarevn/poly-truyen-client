@@ -25,6 +25,7 @@ import com.example.poly_truyen_client.models.Comment;
 import com.example.poly_truyen_client.models.User;
 import com.example.poly_truyen_client.socket.SocketConfig;
 import com.example.poly_truyen_client.socket.SocketSingleton;
+import com.example.poly_truyen_client.utils.DataConvertion;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -86,6 +87,7 @@ public class Comments extends LinearLayout {
                     rvComments.setAdapter(new CommentsAdapter(listCmt, context));
                     rvComments.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
 
+//                    new DataConvertion().setRecyclerViewHeight(rvComments);
                 }
             }
 

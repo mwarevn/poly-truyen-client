@@ -6,10 +6,11 @@ public class Comic {
     private String _id, name, desc, author, poster, createdAt;
     private ArrayList<String> contents;
 
+    private Cats cats;
     public Comic() {
     }
 
-    public Comic(String _id, String name, String desc, String author, String poster, String createdAt, ArrayList<String> contents) {
+    public Comic(String _id, String name, String desc, String author, String poster, String createdAt, ArrayList<String> contents, Cats cats) {
         this._id = _id;
         this.name = name;
         this.desc = desc;
@@ -17,6 +18,7 @@ public class Comic {
         this.poster = poster;
         this.createdAt = createdAt;
         this.contents = contents;
+        this.cats = cats;
     }
 
     public String get_id() {
@@ -73,5 +75,13 @@ public class Comic {
 
     public void setContents(ArrayList<String> contents) {
         this.contents = contents;
+    }
+
+    public Cats getCats() {
+        return cats;
+    }
+
+    public void setCats(Cats cats) {
+        this.cats = cats;
     }
 }

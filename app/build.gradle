@@ -32,8 +32,7 @@ android {
 }
 
 dependencies {
-
-    implementation 'com.github.nguyenhoanglam:ImagePicker:1.6.3'
+    implementation ('com.github.nguyenhoanglam:ImagePicker:1.6.3')
     implementation ('io.socket:socket.io-client:2.0.0') {
         exclude group: 'org.json', module: 'json'
     }

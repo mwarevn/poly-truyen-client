@@ -16,7 +16,7 @@ public class SocketManager {
         try {
             socket = IO.socket(apiUrl);
             socket.connect();
-        } catch (URISyntaxException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

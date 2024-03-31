@@ -36,7 +36,7 @@ public class ViewDetailsComicActivity extends AppCompatActivity {
     private TextView tvComicAuthor;
     private TextView tvComicPublicAt;
     private Button btnReadComic;
-    private TextView tvComicDesc;
+    private TextView tvComicDesc, tvCats;
     private LinearLayout layout_details;
     private Comic comic;
     private Comments commentsLayout;
@@ -56,6 +56,7 @@ public class ViewDetailsComicActivity extends AppCompatActivity {
         btnReadComic = (Button) findViewById(R.id.btnReadComic);
         tvComicDesc = (TextView) findViewById(R.id.tvComicDesc);
         layout_details = findViewById(R.id.layout_details);
+        tvCats = findViewById(R.id.tvCats);
 
         Intent intent = getIntent();
 
@@ -66,6 +67,12 @@ public class ViewDetailsComicActivity extends AppCompatActivity {
         tvComicAuthor.setText(comic.getAuthor());
         tvComicPublicAt.setText(new DataConvertion().date(comic.getCreatedAt()));
         tvComicDesc.setText(comic.getDesc());
+
+        if (comic.getCats() != null) {
+            tvCats.setText(comic.getCats().getName());
+        } else {
+            tvCats.setText("Đang cập nhật");
+        }
 
         loadComment(this, comic);
 
