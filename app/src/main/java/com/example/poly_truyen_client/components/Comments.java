@@ -24,6 +24,7 @@ import com.example.poly_truyen_client.models.Comic;
 import com.example.poly_truyen_client.models.Comment;
 import com.example.poly_truyen_client.models.User;
 import com.example.poly_truyen_client.socket.SocketConfig;
+import com.example.poly_truyen_client.socket.SocketManager;
 import com.example.poly_truyen_client.socket.SocketSingleton;
 import com.example.poly_truyen_client.utils.DataConvertion;
 import com.google.android.material.snackbar.Snackbar;
@@ -54,7 +55,6 @@ public class Comments extends LinearLayout {
     public Comments(Context context, Comic comic) {
         super(context);
         this.comic = comic;
-        this.socket = SocketSingleton.getInstance().getSocket();
         initView(context);
     }
 
@@ -87,7 +87,7 @@ public class Comments extends LinearLayout {
                     rvComments.setAdapter(new CommentsAdapter(listCmt, context));
                     rvComments.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
 
-                    new DataConvertion().setRecyclerViewHeight(rvComments);
+//                    new DataConvertion().setRecyclerViewHeight(rvComments);
                 }
             }
 
@@ -100,6 +100,9 @@ public class Comments extends LinearLayout {
 
     private void initView(Context context) {
         LayoutInflater.from(context).inflate(R.layout.comments_layout, this, true);
+
+        SocketManager socketManager = SocketManager.getInstance(new ConnectAPI().API_URL);
+        socket = socketManager.getSocket();
 
         sharedPreferences = context.getSharedPreferences("poly_comic", Context.MODE_PRIVATE);
         User user = new Gson().fromJson(sharedPreferences.getString("user", ""), User.class);

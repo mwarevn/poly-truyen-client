@@ -67,6 +67,20 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        socket.on("changeListComic", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        EventBus.getDefault().post(new NotificationEvent());
+
+                    }
+                });
+            }
+        });
+
+
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
