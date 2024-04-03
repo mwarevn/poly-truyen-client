@@ -1,11 +1,24 @@
 package com.example.poly_truyen_client;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -16,9 +29,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.poly_truyen_client.adapters.ComicContentsAdapter;
 import com.example.poly_truyen_client.adapters.CommentsAdapter;
+import com.example.poly_truyen_client.adapters.EndlessRecyclerViewScrollListener;
 import com.example.poly_truyen_client.components.Comments;
 import com.example.poly_truyen_client.models.Comic;
 import com.example.poly_truyen_client.utils.DataConvertion;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -28,6 +45,7 @@ public class ReadComicActivity extends AppCompatActivity {
     public RecyclerView rvComicContents;
     private ComicContentsAdapter comicContentsAdapter;
     private ArrayList<String> listComicContents = new ArrayList<>();
+    private ImageView btnOpenComments;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -37,45 +55,42 @@ public class ReadComicActivity extends AppCompatActivity {
         setContentView(R.layout.activity_read_comic);
 
         rvComicContents = findViewById(R.id.rvComicContents);
+        btnOpenComments = findViewById(R.id.btnOpenComments);
 
         Intent intent = getIntent();
         Comic comic = new Gson().fromJson(intent.getStringExtra("comic"), Comic.class);
 
+        // set list contents
+        listComicContents = comic.getContents();
+        comicContentsAdapter = new ComicContentsAdapter(new ArrayList<>(), rvComicContents);
 
-        // get comments
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
 
+        rvComicContents.setLayoutManager(linearLayoutManager);
+        rvComicContents.setAdapter(comicContentsAdapter);
+
+        comicContentsAdapter.appendFromLoadMore(listComicContents);
+
+        // create dialog show comments
+        Dialog dialog = new Dialog(ReadComicActivity.this);
+        dialog.setContentView(R.layout.dialog_comment_layout);
+        dialog.findViewById(R.id.btnClose).setOnClickListener(closeClick -> {dialog.dismiss();});
+        new DataConvertion().decorDialogBackground(dialog);
+
+        // get comments layout
         Comments commentsLayout = new Comments(this, comic);
 
-        LinearLayout layout_read_comic_content = findViewById(R.id.layout_read_comic_content);
-
+        LinearLayout layout_modal_show_comment = dialog.findViewById(R.id.layout_modal_show_comment);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,  // width
                 LinearLayout.LayoutParams.WRAP_CONTENT); // height
         layoutParams.setMargins(45, 35, 45, 50); // left, top, right, bottom
         commentsLayout.setLayoutParams(layoutParams);
-        layout_read_comic_content.addView(commentsLayout);
+        layout_modal_show_comment.addView(commentsLayout);
 
-
-        // set list contents
-        listComicContents = comic.getContents();
-        comicContentsAdapter = new ComicContentsAdapter(listComicContents, rvComicContents);
-
-        rvComicContents.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-        rvComicContents.setAdapter(comicContentsAdapter);
-
-//        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipeRefresh);
-
-//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                rvComicContents.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-//                rvComicContents.setAdapter(comicContentsAdapter);
-//                new DataConvertion().setRecyclerViewHeight(rvComicContents);
-//
-//                swipeRefreshLayout.setRefreshing(false);
-//            }
-//        });
-
+        btnOpenComments.setOnClickListener(v -> {
+            dialog.show();
+        });
 
         findViewById(R.id.ivBackBtn).setOnClickListener(v -> {
             onBackPressed();
@@ -83,8 +98,11 @@ public class ReadComicActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
+
+
 }

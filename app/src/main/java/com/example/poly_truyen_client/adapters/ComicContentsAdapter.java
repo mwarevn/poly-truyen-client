@@ -32,6 +32,11 @@ public class ComicContentsAdapter extends RecyclerView.Adapter<ComicContentsAdap
         this.recyclerView = recyclerView;
     }
 
+    public void appendFromLoadMore(ArrayList<String> newList) {
+        listContents.addAll(newList);
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public ViewHolderComicContentsAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

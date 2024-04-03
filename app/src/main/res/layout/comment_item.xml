@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="8sp"
+    android:layout_marginTop="8sp"
     android:orientation="horizontal">
 
     <androidx.cardview.widget.CardView
@@ -28,19 +28,31 @@
 
         <LinearLayout
             android:id="@+id/commentItem"
-            android:padding="8sp"
             android:background="@drawable/textarea"
+            android:backgroundTint="#333c4d66"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+<!--            android:layout_marginTop="4sp"-->
+<!--            android:layout_marginHorizontal="4sp"-->
+<!--            android:paddingBottom="2sp"-->
+
             <LinearLayout
+                android:id="@+id/layoutHighlightIsAdmin"
+                android:paddingTop="2sp"
+                android:layout_marginTop="2dp"
+                android:paddingHorizontal="12sp"
+                android:backgroundTint="#00FFFFFF"
+                android:background="@drawable/textarea"
                 android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
+                    android:text="Nguyễn Ngọc Minh"
+                    android:textColor="#050505"
                     android:textStyle="bold"
                     android:id="@+id/tvMemberName"
                     android:layout_width="wrap_content"
@@ -57,6 +69,9 @@
             </LinearLayout>
 
             <TextView
+                android:paddingBottom="8sp"
+                android:paddingHorizontal="12sp"
+                android:textColor="#050505"
                 android:id="@+id/tvCommentContent"
                 android:layout_marginTop="0sp"
                 android:layout_width="wrap_content"
@@ -65,7 +80,8 @@
         </LinearLayout>
 
         <TextView
-            android:textSize="13sp"
+            android:layout_marginStart="5sp"
+            android:textSize="10sp"
             android:textStyle="italic"
             android:id="@+id/tvCommentAt"
             android:layout_width="match_parent"

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
@@ -43,6 +44,7 @@ import com.example.poly_truyen_client.models.Comment;
 import com.example.poly_truyen_client.models.User;
 import com.example.poly_truyen_client.notifications.NotificationEvent;
 import com.example.poly_truyen_client.socket.SocketConfig;
+import com.example.poly_truyen_client.socket.SocketManager;
 import com.example.poly_truyen_client.socket.SocketSingleton;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
@@ -76,9 +78,9 @@ public class HomeFragment extends Fragment {
     private Socket socket;
     private ArrayList<Comic> list = new ArrayList<>();
     private AdapterViewPagerTopPopular adapterViewPagerTopPopular;
+    private LinearLayout frag_home_layout;
 
     public HomeFragment() {
-        this.socket = SocketSingleton.getInstance().getSocket();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -86,6 +88,9 @@ public class HomeFragment extends Fragment {
         if (getActivity() != null && ((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         }
+
+        socket = SocketManager.getInstance(new ConnectAPI().API_URL).getSocket();
+
         getActivity().getWindow().setStatusBarColor(Color.TRANSPARENT);
         getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
@@ -95,7 +100,17 @@ public class HomeFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-//                        EventBus.getDefault().post(new NotificationEvent());
+                        fetchComics();
+                    }
+                });
+            }
+        });
+        socket.on("ServerPostNewComic", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
                         fetchComics();
                     }
                 });
@@ -109,15 +124,21 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        popularAdapter = new ComicsAdapter(new ArrayList<Comic>(), getActivity());
-        comicsAdapter = new ComicsAdapter(new ArrayList<Comic>(), getActivity());
-        binding.rvComics.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+//        popularAdapter = new ComicsAdapter(new ArrayList<Comic>(), getActivity(), false);
+        comicsAdapter = new ComicsAdapter(new ArrayList<Comic>(), getActivity(), false);
+        binding.rvComics.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         binding.rvComics.setAdapter(comicsAdapter);
 
         adapterViewPagerTopPopular = new AdapterViewPagerTopPopular(getChildFragmentManager(), getLifecycle());
         binding.viewPager.setAdapter(adapterViewPagerTopPopular);
         binding.viewPager.setUserInputEnabled(false);
 
+        return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, pos) -> {
             switch (pos) {
                 case 0:
@@ -163,15 +184,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        // handle swipe refresh list comic
-//        binding.swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                fetchComics();
-//                binding.swipeRefresh.setRefreshing(false);
-//            }
-//        });
-
         // handle search feature
         binding.edSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -189,6 +201,9 @@ public class HomeFragment extends Fragment {
                 if (textSearch.equals("")) {
                     comicsAdapter.updateList(list);
 
+                    binding.tabLayout.setVisibility(View.VISIBLE);
+                    binding.viewPager.setVisibility(View.VISIBLE);
+
                 } else {
                     for (Comic x : list) {
                         if (x.getName().toLowerCase().contains(textSearch.toLowerCase())) {
@@ -196,9 +211,14 @@ public class HomeFragment extends Fragment {
                         }
                     }
 
+                    binding.tabLayout.setVisibility(View.GONE);
+                    binding.viewPager.setVisibility(View.GONE);
+
                     comicsAdapter.updateList(listTmp);
 
                 }
+
+                setRecyclerViewHeight(binding.rvComics);
 
             }
 
@@ -207,8 +227,6 @@ public class HomeFragment extends Fragment {
 
             }
         });
-
-        return root;
     }
 
     private void getLoggedInUser() {
@@ -217,6 +235,10 @@ public class HomeFragment extends Fragment {
 
         binding.tvEmail.setText(loggedInUser.getUsername());
         binding.tvName.setText(loggedInUser.getFullName());
+
+        if (loggedInUser.getRole() == null || !loggedInUser.getRole().equals("admin")) {
+            binding.ivIconVerify.setVisibility(View.GONE);
+        }
 
         if (loggedInUser.getAvatar() != null && !loggedInUser.getAvatar().equals("")) {
             Picasso.get().load(new ConnectAPI().API_URL + "images/" + loggedInUser.getAvatar()).into(binding.userAvatar);
@@ -259,7 +281,16 @@ public class HomeFragment extends Fragment {
 
     private void setRecyclerViewHeight(RecyclerView recyclerView) {
         int totalHeight = 0;
-        for (int i = 0; i < recyclerView.getAdapter().getItemCount(); i++) {
+
+        int condition = 0;
+
+        if (recyclerView.getAdapter().getItemCount() %2 == 0) {
+            condition = recyclerView.getAdapter().getItemCount() / 2 + 1;
+        } else {
+            condition = recyclerView.getAdapter().getItemCount() / 2 + 2;
+        }
+
+        for (int i = 0; i < condition; i++) {
             View listItem = recyclerView.getAdapter().onCreateViewHolder(recyclerView, recyclerView.getAdapter().getItemViewType(i)).itemView;
             listItem.measure(0, 0);
             totalHeight += listItem.getMeasuredHeight();
@@ -301,24 +332,6 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        getDefault().unregister(this);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onNotificationReceived(NotificationEvent event) {
-        fetchComics();
-    }
-
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
@@ -327,7 +340,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getLoggedInUser();
-        fetchComics();
+
     }
 }

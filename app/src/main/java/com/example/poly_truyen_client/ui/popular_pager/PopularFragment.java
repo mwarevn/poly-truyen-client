@@ -62,7 +62,7 @@ public class PopularFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         comicServices = new ConnectAPI().connect.create(ComicServices.class);
-        comicsAdapter = new ComicsAdapter(new ArrayList<Comic>(), getActivity());
+        comicsAdapter = new ComicsAdapter(new ArrayList<Comic>(), getActivity(), false);
 
         tvTopType = view.findViewById(R.id.tvTopType);
         rvPopular = view.findViewById(R.id.rvPopular);

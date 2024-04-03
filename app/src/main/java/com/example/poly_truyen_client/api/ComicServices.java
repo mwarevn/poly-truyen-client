@@ -4,6 +4,8 @@ import com.example.poly_truyen_client.models.Comic;
 import com.example.poly_truyen_client.models.Comment;
 import com.google.gson.JsonObject;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -36,4 +38,26 @@ public interface ComicServices {
     @GET("comment/get-all")
     Call<ArrayList<Comment>> getAllComments();
 
+    @GET("comment/get-count-comment/{idComic}")
+    Call<CommentCount> getCountComment(@Path("idComic") String idComic);
+
+
+    public class CommentCount {
+        private int count;
+
+        public CommentCount(int count) {
+            this.count = count;
+        }
+
+        public CommentCount() {
+        }
+
+        public int getCount() {
+            return count;
+        }
+
+        public void setCount(int count) {
+            this.count = count;
+        }
+    }
 }

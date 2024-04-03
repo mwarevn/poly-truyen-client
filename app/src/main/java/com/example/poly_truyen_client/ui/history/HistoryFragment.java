@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.poly_truyen_client.R;
 import com.example.poly_truyen_client.adapters.CommentsAdapter;
@@ -42,6 +44,8 @@ public class HistoryFragment extends Fragment {
     private HistoryAdapter historyAdapter;
     private HistoryServices historyServices;
     private SharedPreferences sharedPreferences;
+    private LinearLayout layout_history;
+    private TextView tvHistoryEmpty;
     private ArrayList<Comic> list = new ArrayList<>();
     private User LoggedUser;
     private Context mainContext;
@@ -60,6 +64,14 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onResponse(Call<ArrayList<Comic>> call, Response<ArrayList<Comic>> response) {
                 if (response.isSuccessful() && response.body() != null) {
+
+                    if (response.body().size() <= 0) {
+                        tvHistoryEmpty.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                        return;
+                    }
+
+                    recyclerView.setVisibility(View.VISIBLE);
 
                     ArrayList<Comic> listTmp = new ArrayList<>(response.body());
                     listTmp.clear();
@@ -92,6 +104,7 @@ public class HistoryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mainContext = view.getContext();
 
+        tvHistoryEmpty = view.findViewById(R.id.tvHistoryEmpty);
         recyclerView = view.findViewById(R.id.rvHistory);
         historyServices = new ConnectAPI().connect.create(HistoryServices.class);
         sharedPreferences = view.getContext().getSharedPreferences("poly_comic", Context.MODE_PRIVATE);
@@ -119,6 +132,8 @@ public class HistoryFragment extends Fragment {
                         if (response.isSuccessful() && response.body() != null) {
                             ArrayList<Comic> emptyList = new ArrayList<>();
                             historyAdapter.updateListComic(emptyList);
+                            recyclerView.setVisibility(View.GONE);
+                            tvHistoryEmpty.setVisibility(View.VISIBLE);
                         }
                     }
 
@@ -138,6 +153,8 @@ public class HistoryFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
         fetchCache(LoggedUser.get_id(), mainContext);
+
     }
 }

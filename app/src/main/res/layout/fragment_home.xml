@@ -7,6 +7,8 @@
     android:background="#FFF"
     android:gravity="center"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:id="@+id/frag_home_layout"
     tools:context=".ui.home.HomeFragment">
 
     <!--  Header  -->
@@ -54,19 +56,65 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tvName"
+            <LinearLayout
+                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#303030"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#303030"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_marginStart="5sp"
+                    android:id="@+id/ivIconVerify"
+                    android:src="@drawable/verify"
+                    android:layout_width="24sp"
+                    android:layout_height="24sp" />
+
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
     </LinearLayout>
 
+    <!--  search bar  -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="28sp"
+        android:paddingBottom="5sp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textarea"
+            android:hint="Search comic..."
+            android:paddingHorizontal="15sp"
+            android:paddingVertical="10sp"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="32sp"
+            android:layout_height="32sp"
+            android:layout_gravity="end|center"
+            android:layout_marginEnd="8sp"
+            android:src="@drawable/baseline_search_24" />
+
+    </FrameLayout>
+
     <ScrollView
+        android:layout_marginBottom="58sp"
+        android:fillViewport="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -85,31 +133,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <!--  search bar  -->
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="28sp"
-                android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/edSearch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/textarea"
-                    android:hint="Search comic..."
-                    android:paddingHorizontal="15sp"
-                    android:paddingVertical="10sp"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:layout_width="32sp"
-                    android:layout_height="32sp"
-                    android:layout_gravity="end|center"
-                    android:layout_marginEnd="8sp"
-                    android:src="@drawable/baseline_search_24" />
-
-            </FrameLayout>
 
             <!--  show list comic  -->
             <LinearLayout
@@ -161,7 +185,13 @@
                     android:id="@+id/rvComics"
                     android:layout_marginHorizontal="25sp"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="wrap_content" />
+
+            <TextView
+                 android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="đã hết" />
 
         </LinearLayout>
 

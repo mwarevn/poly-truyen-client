@@ -1,6 +1,5 @@
 package com.example.poly_truyen_client.adapters;
 
-import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -8,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -64,8 +64,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     }
 
     public void updateList(ArrayList<Comment> listUpdate) {
-        list.clear();
-        list.addAll(listUpdate);
+        this.list = listUpdate;
         notifyDataSetChanged();
     }
 
@@ -95,6 +94,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
         // Button delete
         btnDelete.setOnClickListener(v -> {
+            dialog.dismiss();
 
             Dialog confirmDialog = new Dialog(context);
             confirmDialog.setContentView(R.layout.dialog_action_confirmation);
@@ -195,6 +195,21 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             if (comment.getIdUser().getRole() != null && comment.getIdUser().getRole().equals("admin")) {
                 // show verify icon for admin
                 holder.ivVerifyAdmin.setVisibility(ImageView.VISIBLE);
+
+                // Setting padding programmatically
+                int paddingInPx = context.getResources().getDimensionPixelSize(R.dimen.text_padding); // Get padding in pixels
+                int paddingH = context.getResources().getDimensionPixelSize(R.dimen.text_paddingH); // Get padding in pixels
+
+                holder.layoutHighlightIsAdmin.setPadding(paddingH, 0, paddingH, paddingInPx);
+
+                // Set margin for the item layout params (if using LinearLayout as root)
+                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) holder.layoutHighlightIsAdmin.getLayoutParams();
+                int marginInPx = context.getResources().getDimensionPixelSize(R.dimen.text_margin); // Get margin in pixels
+                layoutParams.setMargins(marginInPx, marginInPx, marginInPx, 0);
+                holder.layoutHighlightIsAdmin.setLayoutParams(layoutParams);
+
+                holder.layoutHighlightIsAdmin.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+
             }
 
             if (comment.getIdUser().getAvatar() != null && !comment.getIdUser().getAvatar().isEmpty()) {
@@ -253,6 +268,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         private ImageView ivAvatarMember, ivVerifyAdmin;
         private TextView tvMemberName;
         private TextView tvCommentContent;
+        private LinearLayout layoutHighlightIsAdmin;
         private TextView tvCommentAt;
 
         public CommentsViewHolder(@NonNull View itemView) {
@@ -263,6 +279,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             tvMemberName = (TextView) itemView.findViewById(R.id.tvMemberName);
             tvCommentContent = (TextView) itemView.findViewById(R.id.tvCommentContent);
             tvCommentAt = (TextView) itemView.findViewById(R.id.tvCommentAt);
+            layoutHighlightIsAdmin = (LinearLayout) itemView.findViewById(R.id.layoutHighlightIsAdmin);
 
         }
     }

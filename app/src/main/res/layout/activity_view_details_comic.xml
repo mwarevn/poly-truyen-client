@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingTop="24sp"
     android:background="#FFF"
+    android:fitsSystemWindows="true"
     tools:context=".ViewDetailsComicActivity">
 
     <ImageView
@@ -18,6 +19,8 @@
         android:layout_height="28sp" />
 
     <ScrollView
+        android:fillViewport="true"
+        android:isScrollContainer="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -35,13 +38,16 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_marginVertical="10sp"
-                    app:cardElevation="1sp"
+                    app:cardElevation="0sp"
+                    app:cardCornerRadius="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <ImageView
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
                         android:id="@+id/ivPoster"
                         android:layout_width="150sp"
-                        android:layout_height="228sp" />
+                        android:layout_height="wrap_content" />
                 </androidx.cardview.widget.CardView>
 
                 <LinearLayout
@@ -53,7 +59,7 @@
 
                     <TextView
                         android:id="@+id/tvComicName"
-                        android:textColor="#f68067"
+                        android:textColor="#050505"
                         android:textSize="17sp"
                         android:textStyle="bold"
                         android:layout_width="match_parent"
@@ -83,7 +89,7 @@
                         android:layout_marginTop="8sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:textColor="#1e1e1e"
@@ -103,7 +109,7 @@
                         android:layout_marginTop="8sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:textColor="#1e1e1e"
@@ -119,17 +125,30 @@
 
                     </LinearLayout>
 
-                    <Button
-                        android:backgroundTint="#FF5722"
-                        android:textAllCaps="false"
-                        android:id="@+id/btnReadComic"
+                    <TextView
                         android:layout_marginTop="10sp"
-                        android:paddingHorizontal="15sp"
-                        android:textColor="#FFF"
+                        android:text="Read comic"
                         android:background="@drawable/textarea"
+                        android:paddingHorizontal="12sp"
+                        android:paddingVertical="8sp"
                         android:layout_width="wrap_content"
+                        android:textStyle="bold"
+                        android:backgroundTint="#0866ff"
+                        android:textColor="#fff"
                         android:layout_height="wrap_content"
-                        android:text="Read comic" />
+                        android:id="@+id/btnReadComic" />
+
+<!--                    <Button-->
+<!--                        android:backgroundTint="#FF5722"-->
+<!--                        android:textAllCaps="false"-->
+<!--                        android:id="@+id/btnReadComic"-->
+<!--                        android:layout_marginTop="10sp"-->
+<!--                        android:paddingHorizontal="15sp"-->
+<!--                        android:textColor="#FFF"-->
+<!--                        android:background="@drawable/textarea"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Read comic" />-->
 
 
                 </LinearLayout>

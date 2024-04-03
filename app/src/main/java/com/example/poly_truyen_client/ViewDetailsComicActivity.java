@@ -35,7 +35,7 @@ public class ViewDetailsComicActivity extends AppCompatActivity {
     private TextView tvComicName;
     private TextView tvComicAuthor;
     private TextView tvComicPublicAt;
-    private Button btnReadComic;
+    private TextView btnReadComic;
     private TextView tvComicDesc, tvCats;
     private LinearLayout layout_details;
     private Comic comic;
@@ -53,7 +53,7 @@ public class ViewDetailsComicActivity extends AppCompatActivity {
         tvComicName = (TextView) findViewById(R.id.tvComicName);
         tvComicAuthor = (TextView) findViewById(R.id.tvComicAuthor);
         tvComicPublicAt = (TextView) findViewById(R.id.tvComicPublicAt);
-        btnReadComic = (Button) findViewById(R.id.btnReadComic);
+        btnReadComic = (TextView) findViewById(R.id.btnReadComic);
         tvComicDesc = (TextView) findViewById(R.id.tvComicDesc);
         layout_details = findViewById(R.id.layout_details);
         tvCats = findViewById(R.id.tvCats);
@@ -65,7 +65,7 @@ public class ViewDetailsComicActivity extends AppCompatActivity {
         Picasso.get().load(new ConnectAPI().API_URL + "images/" + comic.getPoster()).into(ivPoster);
         tvComicName.setText(comic.getName());
         tvComicAuthor.setText(comic.getAuthor());
-        tvComicPublicAt.setText(new DataConvertion().date(comic.getCreatedAt()));
+        tvComicPublicAt.setText(new DataConvertion().date(comic.getCreatedAt()).split("- ")[1]);
         tvComicDesc.setText(comic.getDesc());
 
         if (comic.getCats() != null) {

@@ -3,44 +3,64 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="24sp"
     android:background="#FFF"
+    android:orientation="vertical"
+    android:paddingTop="24sp"
     tools:context=".ReadComicActivity">
 
-    <ImageView
-        android:id="@+id/ivBackBtn"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_margin="25sp"
-        android:src="@drawable/back"
-        android:layout_width="28sp"
-        android:layout_height="28sp" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivBackBtn"
+            android:layout_width="28sp"
+            android:layout_height="28sp"
+            android:src="@drawable/back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/btnOpenComments"
+            android:layout_width="24sp"
+            android:layout_height="24sp"
+            android:src="@drawable/comments"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/layout_read_comic_content"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:minHeight="900sp"
+            android:layout_height="wrap_content">
 
-<!--            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="900dp"-->
-<!--                android:id="@+id/swipeRefresh">-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvComicContents"
+                android:layout_width="match_parent"
+                android:layout_height="900dp"
+                android:isScrollContainer="true" />
 
-                <androidx.recyclerview.widget.RecyclerView
+            <LinearLayout
+                android:id="@+id/layout_read_comic_content_backup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
 
-                    android:id="@+id/rvComicContents"
-                    android:layout_width="match_parent"
-                    android:layout_height="900sp" />
-
-<!--            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
         </LinearLayout>
 
     </ScrollView>
+
 
 </LinearLayout>

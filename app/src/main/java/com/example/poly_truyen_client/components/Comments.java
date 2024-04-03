@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -74,20 +76,31 @@ public class Comments extends LinearLayout {
         initView(context);
     }
 
+    public void setRecyclerViewHeight(RecyclerView recyclerView) {
+        int totalHeight = 0;
+        for (int i = 0; i <= recyclerView.getAdapter().getItemCount(); i++) {
+            View listItem = recyclerView.getAdapter().onCreateViewHolder(recyclerView, recyclerView.getAdapter().getItemViewType(i)).itemView;
+            listItem.measure(0, 0);
+            totalHeight += (listItem.getMeasuredHeight() + 50);
+        }
+        ViewGroup.LayoutParams params = recyclerView.getLayoutParams();
+        params.height = totalHeight + (recyclerView.getPaddingTop() + recyclerView.getPaddingBottom());
+        recyclerView.setLayoutParams(params);
+    }
+
     void fetchComments(Context context) {
+        ArrayList<Comment> listCmt = new ArrayList<>();
         Call<ArrayList<Comment>> callComments = comicServices.getCommentsOfComic(comic.get_id());
         callComments.enqueue(new Callback<ArrayList<Comment>>() {
             @Override
             public void onResponse(Call<ArrayList<Comment>> call, Response<ArrayList<Comment>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    ArrayList<Comment> listCmt = new ArrayList<>();
                     listCmt.addAll(response.body());
                     Collections.reverse(listCmt);
-
+//                    commentsAdapter.updateList(listCmt);
                     rvComments.setAdapter(new CommentsAdapter(listCmt, context));
                     rvComments.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-
-//                    new DataConvertion().setRecyclerViewHeight(rvComments);
+                    setRecyclerViewHeight(rvComments);
                 }
             }
 
@@ -96,6 +109,7 @@ public class Comments extends LinearLayout {
 
             }
         });
+
     }
 
     private void initView(Context context) {

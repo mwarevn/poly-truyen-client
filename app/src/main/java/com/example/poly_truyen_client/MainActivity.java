@@ -58,28 +58,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         notifi("Poly comic đã đăng một truyện mới!", args[0].toString());
-
-                        EventBus.getDefault().post(new NotificationEvent());
-
                     }
                 });
             }
         });
-
-
-        socket.on("changeListComic", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                MainActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        EventBus.getDefault().post(new NotificationEvent());
-
-                    }
-                });
-            }
-        });
-
 
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());

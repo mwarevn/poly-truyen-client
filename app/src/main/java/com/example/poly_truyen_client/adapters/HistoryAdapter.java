@@ -45,8 +45,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryA
     }
 
     public void updateListComic(ArrayList<Comic> listUpdate) {
-        list.clear();
-        list.addAll(listUpdate);
+        list = listUpdate;
         notifyDataSetChanged();
     }
 

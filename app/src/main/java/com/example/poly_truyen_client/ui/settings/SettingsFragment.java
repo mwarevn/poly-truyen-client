@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ import com.example.poly_truyen_client.api.ConnectAPI;
 import com.example.poly_truyen_client.api.UserServices;
 import com.example.poly_truyen_client.models.User;
 import com.example.poly_truyen_client.utils.DataConvertion;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -48,6 +50,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -60,16 +64,13 @@ public class SettingsFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private User loggedUser;
     private TextView tvEmail, tvName, tvUsername;
-    private ImageView ivAvatar, previewAvatar;
+    private ImageView ivAvatar, previewAvatar, ivIconVerify;
     private Dialog dialog;
-    private File imageFile;
     private UserServices userServices;
-    private ImageView imageView;
-    private Uri selectedImageUri;
-    private ActivityResultLauncher<String> launcher;
+    private ActivityResultLauncher<Intent> launcher;
+    private String imageWaitToUpload = null;
 
     public SettingsFragment() {
-        // Required empty public constructor
     }
 
     public static SettingsFragment newInstance() {
@@ -80,6 +81,22 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null) {
+                            Uri selectedImageUri = data.getData();
+                            // Handle the picked image URI
+                            String imagePath = selectedImageUri.getPath();
+                            imageWaitToUpload = imagePath;
+//                            uploadImage(imagePath);
+                            Picasso.get().load(selectedImageUri).into(previewAvatar);
+                        }
+                    }
+                });
+
     }
 
     @Override
@@ -89,17 +106,6 @@ public class SettingsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
-    private File getFileFromUri(Uri uri) {
-        String filePath = null;
-        String[] filePathColumn = { MediaStore.Images.Media.DATA };
-        Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumn, null, null, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            filePath = cursor.getString(columnIndex);
-            cursor.close();
-        }
-        return new File(filePath);
-    }
 
     void loadUser() {
         loggedUser = new Gson().fromJson(sharedPreferences.getString("user", ""), User.class);
@@ -107,6 +113,10 @@ public class SettingsFragment extends Fragment {
         tvName.setText(loggedUser.getFullName());
         tvEmail.setText(loggedUser.getEmail());
         tvUsername.setText(loggedUser.getUsername());
+
+        if (loggedUser.getRole() == null || !loggedUser.getRole().equals("admin")) {
+            ivIconVerify.setVisibility(View.GONE);
+        }
 
         if (!loggedUser.getAvatar().equals("") && loggedUser.getAvatar() != null) {
             Picasso.get().load(new ConnectAPI().API_URL + "images/" + loggedUser.getAvatar()).into(ivAvatar);
@@ -126,16 +136,7 @@ public class SettingsFragment extends Fragment {
         tvName = view.findViewById(R.id.tvName);
         tvEmail = view.findViewById(R.id.tvEmail);
         tvUsername = view.findViewById(R.id.tvUsername);
-
-//        launcher = registerForActivityResult(new ActivityResultContracts.GetContent(),
-//                new ActivityResultCallback<Uri>() {
-//                    @Override
-//                    public void onActivityResult(Uri result) {
-//                        Picasso.get().load(result).into(previewAvatar);
-////                        imageFile = new File(result.getPath());
-////                        selectedImageUri = result;
-//                    }
-//                });
+        ivIconVerify = view.findViewById(R.id.ivIconVerify);
 
         loadUser();
 
@@ -193,12 +194,27 @@ public class SettingsFragment extends Fragment {
             edEmail.setText(loggedUser.getEmail());
             edPassword.setText(loggedUser.getPassword());
 
+            // Initialize ActivityResultLauncher
+
             ivAvatar.setOnClickListener(vClick -> {
-//                launcher.launch("image/*");
+                ImagePicker.with(getActivity()).crop().compress(1024)   //Final image size will be less than 1 MB(Optional)
+                        .maxResultSize(1080, 1080)  //Final image resolution will be less than 1080 x 1080(Optional)
+                        .createIntent(new Function1<Intent, Unit>() {
+                            @Override
+                            public Unit invoke(Intent intent) {
+                                launcher.launch(intent);
+                                return null;
+                            }
+                        });
             });
 
             // btn save change
             dialog.findViewById(R.id.textBtnApplyChange).setOnClickListener(vClick -> {
+
+                if (imageWaitToUpload != null) {
+                    uploadImage(imageWaitToUpload);
+                }
+
                 String fullName = edFullName.getText().toString().trim();
                 String username = edUsername.getText().toString().trim();
                 String email = edEmail.getText().toString().trim();
@@ -231,25 +247,6 @@ public class SettingsFragment extends Fragment {
                         Toast.makeText(view.getContext(), "Error from server, unknown error please try again or contact to admin!", Toast.LENGTH_SHORT).show();
                     }
                 });
-//                RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), getFileFromUri(selectedImageUri));
-//                MultipartBody.Part avatar = MultipartBody.Part.createFormData("avatar", imageFile.getName(), requestFile);
-
-//                Call<User> call = userServices.updateUserAvatar(avatar, loggedUser.get_id());
-//                call.enqueue(new Callback<User>() {
-//                    @Override
-//                    public void onResponse(Call<User> call, Response<User> response) {
-//                        if (response.isSuccessful() && response.body() != null) {
-//                            User userUpdated = response.body();
-//
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<User> call, Throwable throwable) {
-//                        throwable.printStackTrace();
-//                        Toast.makeText(getContext(), "Failed !", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
 
             });
 
@@ -261,10 +258,40 @@ public class SettingsFragment extends Fragment {
         });
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
         loggedUser = new Gson().fromJson(sharedPreferences.getString("user", ""), User.class);
     }
+
+    private void uploadImage(String imagePath) {
+        File file = new File(imagePath);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part imagePart = MultipartBody.Part.createFormData("avatar", file.getName(), requestBody);
+
+        Call<User> call = userServices.updateUserAvatar(imagePart, loggedUser.get_id());
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    User updatedUser = response.body();
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("user", new Gson().toJson(updatedUser));
+                    editor.apply();
+                    loadUser();
+                    dialog.dismiss();
+                }
+
+                imageWaitToUpload = null;
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable throwable) {
+                imageWaitToUpload = null;
+            }
+        });
+    }
+
 
 }
