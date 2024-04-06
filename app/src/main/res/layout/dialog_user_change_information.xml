@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:theme="@style/Theme.Material3.Light.Dialog"
     android:layout_marginHorizontal="35sp"
-    app:cardCornerRadius="18sp"
+    app:cardCornerRadius="26sp"
     app:contentPadding="25sp">
 
     <LinearLayout
@@ -13,8 +14,20 @@
         android:gravity="center"
         android:orientation="vertical">
 
+<!--        <TextView-->
+<!--            android:textSize="16sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="#505050"-->
+<!--            android:textAlignment="center"-->
+<!--            android:layout_marginTop="2sp"-->
+<!--            android:layout_marginBottom="25sp"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Change Infomartion" />-->
+
         <!--    Change avatar    -->
         <androidx.cardview.widget.CardView
+            android:layout_marginTop="6sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="25sp"

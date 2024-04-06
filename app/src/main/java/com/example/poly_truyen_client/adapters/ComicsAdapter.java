@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -112,23 +113,10 @@ public class ComicsAdapter extends RecyclerView.Adapter<ComicsAdapter.ComicViewH
         holder.tvName.setText(comic.getName());
 
         holder.ivPoster.setOnClickListener(v -> {
-
-            Call<History> saveCache = historyServices.storeHistory(loggedUser.get_id(), comic.get_id());
-            saveCache.enqueue(new Callback<History>() {
-                @Override
-                public void onResponse(Call<History> call, Response<History> response) {
-
-                }
-
-                @Override
-                public void onFailure(Call<History> call, Throwable throwable) {
-
-                }
-            });
             context.startActivity(new Intent(context, ViewDetailsComicActivity.class).putExtra("comic", new Gson().toJson(comic)));
         });
 
-        holder.tvCountComment.setText("0 lượt bình luận");
+        holder.tvCountViews.setText(comic.getViews() + " Views");
 
         Call<ComicServices.CommentCount> getCount = comicServices.getCountComment(comic.get_id());
         getCount.enqueue(new Callback<ComicServices.CommentCount>() {
@@ -137,7 +125,7 @@ public class ComicsAdapter extends RecyclerView.Adapter<ComicsAdapter.ComicViewH
                 if (response.isSuccessful() && response.body() != null) {
                     ComicServices.CommentCount count = response.body();
                     try {
-                        holder.tvCountComment.setText(count.getCount() + " lượt bình luận");
+                        holder.tvCountComment.setText(count.getCount() + " Comments");
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
@@ -146,7 +134,7 @@ public class ComicsAdapter extends RecyclerView.Adapter<ComicsAdapter.ComicViewH
 
             @Override
             public void onFailure(Call<ComicServices.CommentCount> call, Throwable throwable) {
-
+                Toast.makeText(context, "ERROR, Failed to get count of comment for comics!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -160,13 +148,14 @@ public class ComicsAdapter extends RecyclerView.Adapter<ComicsAdapter.ComicViewH
     public class ComicViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView ivPoster;
-        private TextView tvName, tvCountComment;
+        private TextView tvName, tvCountComment, tvCountViews;
         private CardView item_card_view;
         private FrameLayout item_frame;
 
         public ComicViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            tvCountViews = itemView.findViewById(R.id.tvViewCount);
             item_card_view = itemView.findViewById(R.id.item_card_view);
             item_frame = itemView.findViewById(R.id.item_frame);
             ivPoster = (ImageView) itemView.findViewById(R.id.ivPoster);

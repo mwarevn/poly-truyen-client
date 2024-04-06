@@ -2,22 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frag_home_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFF"
+    android:fitsSystemWindows="true"
     android:gravity="center"
     android:orientation="vertical"
-    android:fitsSystemWindows="true"
-    android:id="@+id/frag_home_layout"
     tools:context=".ui.home.HomeFragment">
 
     <!--  Header  -->
     <LinearLayout
+        android:id="@+id/user_settings_navigate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingHorizontal="25sp"
-        android:paddingVertical="8sp">
+        android:layout_marginHorizontal="25sp"
+        android:layout_marginVertical="8sp"
+        android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
             android:layout_width="64sp"
@@ -57,9 +58,9 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -71,11 +72,11 @@
                     android:textStyle="bold" />
 
                 <ImageView
-                    android:layout_marginStart="5sp"
                     android:id="@+id/ivIconVerify"
-                    android:src="@drawable/verify"
                     android:layout_width="24sp"
-                    android:layout_height="24sp" />
+                    android:layout_height="24sp"
+                    android:layout_marginStart="5sp"
+                    android:src="@drawable/verify" />
 
 
             </LinearLayout>
@@ -90,8 +91,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="28sp"
-        android:paddingBottom="5sp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="5sp">
 
         <EditText
             android:id="@+id/edSearch"
@@ -113,10 +114,10 @@
     </FrameLayout>
 
     <ScrollView
-        android:layout_marginBottom="58sp"
-        android:fillViewport="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="58sp"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -134,7 +135,6 @@
                 android:layout_height="wrap_content" />
 
 
-
             <!--  show list comic  -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -148,7 +148,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tất cả truyện"
+                    android:text="All comics"
                     android:textColor="#FF5722"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -164,7 +164,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Thể loại: "
+                        android:text="category filter: "
                         android:textColor="#1e1e1e"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -174,24 +174,25 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
+                </LinearLayout>
+
+
             </LinearLayout>
 
-
-
-
-            </LinearLayout>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:nestedScrollingEnabled="false"
-                    android:id="@+id/rvComics"
-                    android:layout_marginHorizontal="25sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            <TextView
-                 android:textAlignment="center"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvComics"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="đã hết" />
+                android:layout_marginHorizontal="25sp"
+                android:nestedScrollingEnabled="false" />
+
+            <TextView
+                android:layout_marginTop="18sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="no more content to show"
+                android:textAlignment="center"
+                android:textStyle="italic" />
 
         </LinearLayout>
 

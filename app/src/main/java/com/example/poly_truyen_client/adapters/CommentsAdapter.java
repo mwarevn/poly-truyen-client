@@ -122,6 +122,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
                     @Override
                     public void onFailure(Call<Comment> call, Throwable throwable) {
+                        Toast.makeText(context, "ERROR, Failed to remove this comment!", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -165,6 +166,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
                 @Override
                 public void onFailure(Call<Comment> call, Throwable throwable) {
+                    Toast.makeText(context, "ERROR, Falied to edit this comment!", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
             });

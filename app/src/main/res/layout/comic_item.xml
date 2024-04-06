@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_card_view"
     android:layout_width="wrap_content"
     android:layout_height="300sp"
     android:layout_marginHorizontal="3sp"
@@ -9,20 +10,19 @@
     android:gravity="center"
     android:maxWidth="190sp"
     android:maxHeight="250sp"
-    app:cardCornerRadius="8sp"
-    android:id="@+id/item_card_view"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:cardCornerRadius="8sp">
 
     <FrameLayout
         android:id="@+id/item_frame"
-        android:layout_width="190sp"
+        android:layout_width="175sp"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
-            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
@@ -33,7 +33,7 @@
 
                 <ImageView
                     android:id="@+id/ivPoster"
-                    android:layout_width="190sp"
+                    android:layout_width="175sp"
                     android:layout_height="190sp"
                     android:adjustViewBounds="true"
                     android:scaleType="centerCrop" />
@@ -52,16 +52,61 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvCommentCount"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="#853F51B5"
+            android:background="#6F3F51B5"
+            android:orientation="horizontal"
             android:paddingHorizontal="12sp"
-            android:paddingVertical="8sp"
-            android:text="Comment"
-            android:textColor="#fff" />
+            android:paddingVertical="8sp">
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_marginEnd="5sp"
+                    android:layout_width="12sp"
+                    android:layout_height="12sp"
+                    android:src="@drawable/comment_alt_middle" />
+
+                <TextView
+                    android:id="@+id/tvCommentCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Comment"
+                    android:textColor="#fff"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginStart="8sp"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_marginEnd="5sp"
+                    android:layout_width="15sp"
+                    android:layout_height="15sp"
+                    android:src="@drawable/eye" />
+
+                <TextView
+                    android:id="@+id/tvViewCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View"
+                    android:textColor="#fff"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </FrameLayout>
 

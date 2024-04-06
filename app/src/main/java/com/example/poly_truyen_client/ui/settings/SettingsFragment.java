@@ -91,7 +91,6 @@ public class SettingsFragment extends Fragment {
                             // Handle the picked image URI
                             String imagePath = selectedImageUri.getPath();
                             imageWaitToUpload = imagePath;
-//                            uploadImage(imagePath);
                             Picasso.get().load(selectedImageUri).into(previewAvatar);
                         }
                     }
@@ -289,6 +288,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onFailure(Call<User> call, Throwable throwable) {
                 imageWaitToUpload = null;
+                Toast.makeText(getActivity(), "ERROR, Failed to update avatar!", Toast.LENGTH_SHORT).show();
             }
         });
     }

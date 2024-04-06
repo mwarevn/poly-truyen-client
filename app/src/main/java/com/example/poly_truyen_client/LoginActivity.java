@@ -93,6 +93,9 @@ public class LoginActivity extends AppCompatActivity {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("email", user.getEmail());
             jsonObject.addProperty("password", user.getPassword());
+
+            edEmail.setText(user.getUsername());
+            edPassword.setText(user.getPassword());
             signIn(jsonObject);
         }
 

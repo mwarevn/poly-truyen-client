@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="#fff"
     tools:context=".ui.settings.SettingsFragment">
 
   <LinearLayout
@@ -16,24 +17,34 @@
 
 
      <androidx.cardview.widget.CardView
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
          app:cardCornerRadius="1000sp"
-         app:contentPadding="2sp">
+         app:contentPadding="4sp"
+         android:backgroundTint="#8D1A71FF"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content">
 
-        <androidx.cardview.widget.CardView
-            app:cardElevation="0sp"
-            android:id="@+id/cardView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="1000dp">
+         <androidx.cardview.widget.CardView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             app:cardCornerRadius="1000sp"
+             app:contentPadding="2sp">
 
-           <ImageView
-               android:id="@+id/ivAvatar"
-               android:layout_width="100sp"
-               android:layout_height="100sp" />
+             <androidx.cardview.widget.CardView
+                 app:cardMaxElevation="0sp"
+                 app:cardElevation="0sp"
+                 android:id="@+id/cardView"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 app:cardCornerRadius="1000dp">
 
-        </androidx.cardview.widget.CardView>
+                 <ImageView
+                     android:id="@+id/ivAvatar"
+                     android:layout_width="100sp"
+                     android:layout_height="100sp" />
+
+             </androidx.cardview.widget.CardView>
+
+         </androidx.cardview.widget.CardView>
 
      </androidx.cardview.widget.CardView>
 
@@ -129,7 +140,7 @@
               android:id="@+id/btnChangeInformation"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="Thay đổi thông tin"
+              android:text="Change infomartion"
               android:paddingHorizontal="15sp"
               android:paddingVertical="12sp" />
 
@@ -141,7 +152,7 @@
               android:id="@+id/btnLogout"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="Đăng xuất"
+              android:text="Logout"
               android:paddingHorizontal="15sp"
               android:paddingVertical="12sp" />
 

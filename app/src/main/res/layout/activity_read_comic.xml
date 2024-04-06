@@ -24,6 +24,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:textAlignment="center"
+            android:textColor="#505050"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8sp"
+            android:id="@+id/tvName"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnOpenComments"
+            app:layout_constraintStart_toEndOf="@+id/ivBackBtn"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/btnOpenComments"
             android:layout_width="24sp"
@@ -43,13 +57,13 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:minHeight="900sp"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvComicContents"
                 android:layout_width="match_parent"
-                android:layout_height="900dp"
+                android:minHeight="789sp"
+                android:layout_height="match_parent"
                 android:isScrollContainer="true" />
 
             <LinearLayout
@@ -57,6 +71,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
+
+            <TextView
+                android:layout_marginTop="18sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="no more content to show"
+                android:textAlignment="center"
+                android:textStyle="italic" />
 
         </LinearLayout>
 

@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.poly_truyen_client.R;
 import com.example.poly_truyen_client.adapters.ComicsAdapter;
@@ -69,20 +70,31 @@ public class PopularFragment extends Fragment {
 
 
         if (top.equals("day")) {
-            tvTopType.setText("Top truyện HOT hôm nay");
+            tvTopType.setText("Top comics hot today");
         }
 
         if (top.equals("week")) {
-            tvTopType.setText("Top truyện HOT tuần này");
+            tvTopType.setText("Top comics hot this week");
         }
 
         if (top.equals("month")) {
-            tvTopType.setText("Top truyện HOT trong Tháng");
+            tvTopType.setText("Top comics hot of month");
         }
 
         rvPopular.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         rvPopular.setAdapter(comicsAdapter);
 
+        getListPopular();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getListPopular();
+    }
+
+    void getListPopular() {
         Call<ArrayList<Comic>> getListComicsPopular = comicServices.getTopPopular(top);
         getListComicsPopular.enqueue(new Callback<ArrayList<Comic>>() {
             @Override
@@ -91,16 +103,13 @@ public class PopularFragment extends Fragment {
                     listComicsPopular.clear();
                     listComicsPopular.addAll(response.body());
                     comicsAdapter.updateList(listComicsPopular);
-                    Log.d(TAG, "onResponse: anh minh 1234");
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<Comic>> call, Throwable throwable) {
-
+                Toast.makeText(getContext(), "ERROR, Failed to get TOP popular comics!", Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 }

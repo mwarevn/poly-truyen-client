@@ -75,7 +75,7 @@
                             android:textColor="#1e1e1e"
                             android:textStyle="bold"
                             android:text="Author: "
-                            android:layout_width="wrap_content"
+                            android:layout_width="68sp"
                             android:layout_height="wrap_content" />
 
                         <TextView
@@ -95,7 +95,7 @@
                             android:textColor="#1e1e1e"
                             android:textStyle="bold"
                             android:text="Posted at: "
-                            android:layout_width="wrap_content"
+                            android:layout_width="68sp"
                             android:layout_height="wrap_content" />
 
                         <TextView
@@ -114,8 +114,8 @@
                         <TextView
                             android:textColor="#1e1e1e"
                             android:textStyle="bold"
-                            android:text="Thể loại: "
-                            android:layout_width="wrap_content"
+                            android:text="category: "
+                            android:layout_width="68sp"
                             android:layout_height="wrap_content" />
 
                         <TextView

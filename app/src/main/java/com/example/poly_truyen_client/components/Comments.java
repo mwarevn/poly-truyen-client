@@ -84,7 +84,7 @@ public class Comments extends LinearLayout {
             totalHeight += (listItem.getMeasuredHeight() + 50);
         }
         ViewGroup.LayoutParams params = recyclerView.getLayoutParams();
-        params.height = totalHeight + (recyclerView.getPaddingTop() + recyclerView.getPaddingBottom());
+        params.height = 150 + totalHeight + (recyclerView.getPaddingTop() + recyclerView.getPaddingBottom());
         recyclerView.setLayoutParams(params);
     }
 
@@ -106,7 +106,7 @@ public class Comments extends LinearLayout {
 
             @Override
             public void onFailure(Call<ArrayList<Comment>> call, Throwable throwable) {
-
+                Toast.makeText(context, "ERROR, Failed to get all comments of this comics!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -164,6 +164,7 @@ public class Comments extends LinearLayout {
 
                 @Override
                 public void onFailure(Call<Comment> call, Throwable throwable) {
+                    Toast.makeText(context, "ERROR, Failed to send comment!", Toast.LENGTH_SHORT).show();
                 }
             });
 

@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -142,13 +143,13 @@ public class HomeFragment extends Fragment {
         TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, pos) -> {
             switch (pos) {
                 case 0:
-                    tab.setText("TOP ngày"); // Set title for tab 1
+                    tab.setText("TOP DAY");
                     break;
                 case 1:
-                    tab.setText("TOP Tuần"); // Set title for tab 2
+                    tab.setText("TOP WEEK");
                     break;
                 case 2:
-                    tab.setText("TOP tháng"); // Set title for tab 3
+                    tab.setText("TOP MONTH");
                     break;
             }
         });
@@ -159,23 +160,27 @@ public class HomeFragment extends Fragment {
         fetchComics();
         getCats();
 
+        binding.userSettingsNavigate.setOnClickListener(v -> {
+//            Navigation.findNavController(view).navigate(R.id.navigation_settings);
+        });
         binding.spinnerCats.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0 ) {
+                if (position == 0) {
                     comicsAdapter.updateList(list);
                     return;
                 }
 
                 ArrayList<Comic> listSortTmp = new ArrayList<>();
-                for (Comic x: list) {
+                for (Comic x : list) {
                     if (x.getCats() != null) {
-                        if (x.getCats().get_id().equals(listCats.get(position-1).get_id())) {
+                        if (x.getCats().get_id().equals(listCats.get(position - 1).get_id())) {
                             listSortTmp.add(x);
                         }
                     }
                 }
                 comicsAdapter.updateList(listSortTmp);
+//                setRecyclerViewHeight(binding.rvComics, false);
             }
 
             @Override
@@ -218,7 +223,7 @@ public class HomeFragment extends Fragment {
 
                 }
 
-                setRecyclerViewHeight(binding.rvComics);
+                setRecyclerViewHeight(binding.rvComics, false);
 
             }
 
@@ -274,20 +279,23 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ArrayList<Cats>> call, Throwable throwable) {
-
+                Toast.makeText(getActivity(), "ERROR, Failed to get all category!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void setRecyclerViewHeight(RecyclerView recyclerView) {
+    private void setRecyclerViewHeight(RecyclerView recyclerView, boolean isSmaller) {
+
+        int numOfItem = isSmaller ? 3 : 2;
+
         int totalHeight = 0;
 
         int condition = 0;
 
-        if (recyclerView.getAdapter().getItemCount() %2 == 0) {
-            condition = recyclerView.getAdapter().getItemCount() / 2 + 1;
+        if (recyclerView.getAdapter().getItemCount() % numOfItem == 0) {
+            condition = recyclerView.getAdapter().getItemCount() / numOfItem + 1;
         } else {
-            condition = recyclerView.getAdapter().getItemCount() / 2 + 2;
+            condition = recyclerView.getAdapter().getItemCount() / 2 + numOfItem;
         }
 
         for (int i = 0; i < condition; i++) {
@@ -296,7 +304,7 @@ public class HomeFragment extends Fragment {
             totalHeight += listItem.getMeasuredHeight();
         }
         ViewGroup.LayoutParams params = recyclerView.getLayoutParams();
-        params.height = totalHeight + (recyclerView.getPaddingTop() + recyclerView.getPaddingBottom());
+        params.height = 200 + totalHeight + (recyclerView.getPaddingTop() + recyclerView.getPaddingBottom());
         recyclerView.setLayoutParams(params);
     }
 
@@ -315,18 +323,15 @@ public class HomeFragment extends Fragment {
                     list.clear();
                     list.addAll(listTmp);
                     comicsAdapter.updateList(listTmp);
-                    setRecyclerViewHeight(binding.rvComics);
+                    setRecyclerViewHeight(binding.rvComics, false);
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<Comic>> call, Throwable throwable) {
-
+                Toast.makeText(getActivity(), "ERROR, Failed to get all comics!", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
 
 
     }
@@ -340,6 +345,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        fetchComics();
+        getLoggedInUser();
     }
 }

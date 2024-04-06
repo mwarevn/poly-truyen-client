@@ -10,8 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.poly_truyen_client.R;
@@ -74,7 +76,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryA
 
         holder.tvName.setText(comic.getName());
         holder.tvAuthor.setText(comic.getAuthor());
-        holder.tvCreatedAt.setText(new DataConvertion().date(comic.getCreatedAt()));
+        holder.tvCreatedAt.setText(new DataConvertion().date(comic.getCreatedAt()).split(" - ")[1]);
         Picasso.get().load(new ConnectAPI().API_URL + "images/" + comic.getPoster()).into(holder.ivPoster);
 
         holder.btnRemoveHistory.setOnClickListener(v -> {
@@ -98,7 +100,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryA
 
                     @Override
                     public void onFailure(Call<History> call, Throwable throwable) {
-
+                        Toast.makeText(context, "ERROR, Falied to remove this history!", Toast.LENGTH_SHORT).show();
                     }
                 });
                 dialog.dismiss();
@@ -118,7 +120,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryA
         private TextView tvName;
         private TextView tvAuthor;
         private TextView tvCreatedAt;
-        private LinearLayout btnRemoveHistory, history_item;
+        private LinearLayout btnRemoveHistory;
+        private CardView history_item;
 
         public HistoryAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -128,7 +131,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryA
             tvAuthor = (TextView) itemView.findViewById(R.id.tvAuthor);
             tvCreatedAt = (TextView) itemView.findViewById(R.id.tvCreatedAt);
             btnRemoveHistory = (LinearLayout) itemView.findViewById(R.id.btnRemoveHistory);
-            history_item = (LinearLayout) itemView.findViewById(R.id.history_item);
+            history_item = (CardView) itemView.findViewById(R.id.history_item);
 
         }
     }

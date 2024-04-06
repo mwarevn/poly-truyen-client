@@ -5,17 +5,19 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_home">
 
-    <fragment
-        android:id="@+id/navigation_history"
-        android:name="com.example.poly_truyen_client.ui.history.HistoryFragment"
-        android:label="History"
-        tools:layout="@layout/fragment_history" />
+
 
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.poly_truyen_client.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_history"
+        android:name="com.example.poly_truyen_client.ui.history.HistoryFragment"
+        android:label="History"
+        tools:layout="@layout/fragment_history" />
 
 <!--    <fragment-->
 <!--        android:id="@+id/navigation_notifications"-->
@@ -26,6 +28,6 @@
     <fragment
         android:id="@+id/navigation_settings"
         android:name="com.example.poly_truyen_client.ui.settings.SettingsFragment"
-        android:label="Settings"
+        android:label="Account"
         tools:layout="@layout/fragment_settings" />
 </navigation>

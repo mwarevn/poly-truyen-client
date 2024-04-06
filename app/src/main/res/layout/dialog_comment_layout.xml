@@ -5,8 +5,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="28sp"
     android:maxHeight="678sp"
-    app:cardCornerRadius="18sp"
-    app:contentPadding="18sp">
+    app:cardCornerRadius="26sp"
+    app:contentPadding="12sp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,6 +14,7 @@
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:paddingHorizontal="8sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12sp"

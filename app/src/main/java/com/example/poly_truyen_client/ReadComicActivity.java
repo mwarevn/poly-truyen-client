@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -30,8 +32,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.poly_truyen_client.adapters.ComicContentsAdapter;
 import com.example.poly_truyen_client.adapters.CommentsAdapter;
 import com.example.poly_truyen_client.adapters.EndlessRecyclerViewScrollListener;
+import com.example.poly_truyen_client.api.ConnectAPI;
+import com.example.poly_truyen_client.api.HistoryServices;
 import com.example.poly_truyen_client.components.Comments;
 import com.example.poly_truyen_client.models.Comic;
+import com.example.poly_truyen_client.models.History;
+import com.example.poly_truyen_client.models.User;
+import com.example.poly_truyen_client.utils.Current;
 import com.example.poly_truyen_client.utils.DataConvertion;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -40,12 +47,19 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ReadComicActivity extends AppCompatActivity {
 
     public RecyclerView rvComicContents;
     private ComicContentsAdapter comicContentsAdapter;
     private ArrayList<String> listComicContents = new ArrayList<>();
     private ImageView btnOpenComments;
+    private TextView tvName;
+    private HistoryServices historyServices;
+    private SharedPreferences sharedPreferences;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -54,11 +68,34 @@ public class ReadComicActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_read_comic);
 
-        rvComicContents = findViewById(R.id.rvComicContents);
-        btnOpenComments = findViewById(R.id.btnOpenComments);
-
         Intent intent = getIntent();
         Comic comic = new Gson().fromJson(intent.getStringExtra("comic"), Comic.class);
+
+        historyServices = new ConnectAPI().connect.create(HistoryServices.class);
+        sharedPreferences = getSharedPreferences("poly_comic", MODE_PRIVATE);
+
+//        User loggedUser = new Gson().fromJson(sharedPreferences.getString("user", ""), User.class);
+
+        User loggedUser = Current.loggedUser(getApplicationContext());
+
+        Call<History> saveCache = historyServices.storeHistory(loggedUser.get_id(), comic.get_id());
+        saveCache.enqueue(new Callback<History>() {
+            @Override
+            public void onResponse(Call<History> call, Response<History> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<History> call, Throwable throwable) {
+
+            }
+        });
+
+        rvComicContents = findViewById(R.id.rvComicContents);
+        btnOpenComments = findViewById(R.id.btnOpenComments);
+        tvName = findViewById(R.id.tvName);
+
+        tvName.setText(comic.getName());
 
         // set list contents
         listComicContents = comic.getContents();
@@ -95,6 +132,8 @@ public class ReadComicActivity extends AppCompatActivity {
         findViewById(R.id.ivBackBtn).setOnClickListener(v -> {
             onBackPressed();
         });
+
+
 
     }
 

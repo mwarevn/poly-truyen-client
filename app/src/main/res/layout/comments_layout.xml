@@ -23,18 +23,34 @@
         android:id="@+id/btnSendComment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#0866ff"
+        android:background="@drawable/textarea"
+
         app:cardCornerRadius="18sp">
 
-        <TextView
-            android:paddingHorizontal="12sp"
-            android:paddingVertical="8sp"
-            android:textColor="#FFF"
-            android:background="@drawable/textarea"
-            android:backgroundTint="#0866ff"
-            android:textStyle="bold"
+        <LinearLayout
+            android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Send comment" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:paddingEnd="8sp"
+                android:paddingStart="12sp"
+                android:paddingVertical="8sp"
+                android:textColor="#FFF"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Send comment" />
+
+            <ImageView
+                android:layout_marginEnd="12sp"
+                android:src="@drawable/rocket_lunch"
+                android:layout_width="16sp"
+                android:layout_height="16sp" />
+
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
