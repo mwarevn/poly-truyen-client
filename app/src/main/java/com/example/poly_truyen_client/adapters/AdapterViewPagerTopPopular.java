@@ -19,11 +19,11 @@ public class AdapterViewPagerTopPopular extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new PopularFragment("day");
+                return new PopularFragment("month");
             case 1:
                 return new PopularFragment("week");
             case 2:
-                return new PopularFragment("month");
+                return new PopularFragment("day");
             default:
                 return null;
         }

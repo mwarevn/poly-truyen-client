@@ -32,14 +32,13 @@ android {
 }
 
 dependencies {
+    implementation "com.facebook.shimmer:shimmer:0.5.0"
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.3"
     implementation 'com.github.dhaval2404:imagepicker:2.1'
-
     implementation ('io.socket:socket.io-client:2.0.0') {
         exclude group: 'org.json', module: 'json'
     }
     implementation "org.greenrobot:eventbus:3.3.1"
-
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
     implementation 'com.squareup.retrofit2:retrofit:2.10.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.10.0'

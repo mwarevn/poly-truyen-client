@@ -3,7 +3,27 @@ package com.example.poly_truyen_client.models;
 import java.util.ArrayList;
 
 public class Comic {
-    private String _id, name, desc, author, poster, createdAt, views;
+    private String _id, name, desc, author, poster, createdAt, views, comments;
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public Comic(String _id, String name, String desc, String author, String poster, String createdAt, String views, ArrayList<String> contents, Cats cats) {
+        this._id = _id;
+        this.name = name;
+        this.desc = desc;
+        this.author = author;
+        this.poster = poster;
+        this.createdAt = createdAt;
+        this.views = views;
+        this.contents = contents;
+        this.cats = cats;
+    }
 
     public String getViews() {
         return views;

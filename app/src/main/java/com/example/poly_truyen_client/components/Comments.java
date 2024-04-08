@@ -76,17 +76,6 @@ public class Comments extends LinearLayout {
         initView(context);
     }
 
-    public void setRecyclerViewHeight(RecyclerView recyclerView) {
-        int totalHeight = 0;
-        for (int i = 0; i <= recyclerView.getAdapter().getItemCount(); i++) {
-            View listItem = recyclerView.getAdapter().onCreateViewHolder(recyclerView, recyclerView.getAdapter().getItemViewType(i)).itemView;
-            listItem.measure(0, 0);
-            totalHeight += (listItem.getMeasuredHeight() + 50);
-        }
-        ViewGroup.LayoutParams params = recyclerView.getLayoutParams();
-        params.height = 150 + totalHeight + (recyclerView.getPaddingTop() + recyclerView.getPaddingBottom());
-        recyclerView.setLayoutParams(params);
-    }
 
     void fetchComments(Context context) {
         ArrayList<Comment> listCmt = new ArrayList<>();
@@ -97,10 +86,8 @@ public class Comments extends LinearLayout {
                 if (response.isSuccessful() && response.body() != null) {
                     listCmt.addAll(response.body());
                     Collections.reverse(listCmt);
-//                    commentsAdapter.updateList(listCmt);
                     rvComments.setAdapter(new CommentsAdapter(listCmt, context));
                     rvComments.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-                    setRecyclerViewHeight(rvComments);
                 }
             }
 

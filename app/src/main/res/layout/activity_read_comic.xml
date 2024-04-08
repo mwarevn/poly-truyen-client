@@ -50,9 +50,9 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:orientation="vertical"
@@ -63,8 +63,7 @@
                 android:id="@+id/rvComicContents"
                 android:layout_width="match_parent"
                 android:minHeight="789sp"
-                android:layout_height="match_parent"
-                android:isScrollContainer="true" />
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:id="@+id/layout_read_comic_content_backup"
@@ -82,7 +81,7 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
 </LinearLayout>

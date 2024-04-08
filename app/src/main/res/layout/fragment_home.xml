@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:background="#FFF"
     android:fitsSystemWindows="true"
-    android:gravity="center"
     android:orientation="vertical"
     tools:context=".ui.home.HomeFragment">
 
@@ -113,9 +112,9 @@
 
     </FrameLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="58sp"
         android:fillViewport="true">
 
@@ -124,10 +123,41 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <!-- show lis recommend -->
+            <TextView
+                android:id="@+id/tvRecommendComicsTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="28sp"
+                android:layout_marginTop="18sp"
+                android:layout_marginBottom="5sp"
+                android:text="Popular comics"
+                android:textColor="#000"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="28sp"
+                app:cardCornerRadius="18sp">
+
+                <ViewFlipper
+                    android:id="@+id/vfPopularComics"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </androidx.cardview.widget.CardView>
+
+            <!--            Top comcis HOT-->
+
+
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
+
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="28sp" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"
@@ -142,15 +172,15 @@
                 android:layout_marginHorizontal="28sp"
                 android:layout_marginTop="8sp"
                 android:layout_marginBottom="4sp"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:gravity="center_vertical"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="All comics"
-                    android:textColor="#FF5722"
-                    android:textSize="16sp"
+                    android:text="The entire comic is available"
+                    android:textColor="#000"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <!--  sort by cats  -->
@@ -158,19 +188,32 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="end"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="category filter: "
+                        android:text="Filter: "
                         android:textColor="#1e1e1e"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <Spinner
                         android:id="@+id/spinnerCats"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <!--                    count col-->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Columns: "
+                        android:textColor="#1e1e1e"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/spinnerCountColsView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -187,14 +230,15 @@
                 android:nestedScrollingEnabled="false" />
 
             <TextView
-                android:layout_marginTop="18sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="18sp"
                 android:text="no more content to show"
                 android:textAlignment="center"
                 android:textStyle="italic" />
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
+
 </LinearLayout>

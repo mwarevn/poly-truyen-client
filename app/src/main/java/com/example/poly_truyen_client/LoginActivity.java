@@ -86,18 +86,18 @@ public class LoginActivity extends AppCompatActivity {
         edPassword = (EditText) findViewById(R.id.edPassword);
         btnSignIn = (Button) findViewById(R.id.btnSignIn);
 
-        String loggedUser = sharedPreferences.getString("user", "");
-
-        if (!loggedUser.equals("")) {
-            User user = new Gson().fromJson(loggedUser, User.class);
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("email", user.getEmail());
-            jsonObject.addProperty("password", user.getPassword());
-
-            edEmail.setText(user.getUsername());
-            edPassword.setText(user.getPassword());
-            signIn(jsonObject);
-        }
+//        String loggedUser = sharedPreferences.getString("user", "");
+//
+//        if (new Gson().fromJson(loggedUser, User.class) != null) {
+//            User user = new Gson().fromJson(loggedUser, User.class);
+//            JsonObject jsonObject = new JsonObject();
+//            jsonObject.addProperty("email", user.getEmail());
+//            jsonObject.addProperty("password", user.getPassword());
+//
+//            edEmail.setText(user.getUsername());
+//            edPassword.setText(user.getPassword());
+//            signIn(jsonObject);
+//        }
 
         btnSignIn.setOnClickListener(v -> {
 

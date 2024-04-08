@@ -27,6 +27,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -69,6 +72,7 @@ public class SettingsFragment extends Fragment {
     private UserServices userServices;
     private ActivityResultLauncher<Intent> launcher;
     private String imageWaitToUpload = null;
+    private LinearLayout linearLayoutAvatar;
 
     public SettingsFragment() {
     }
@@ -81,6 +85,7 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {

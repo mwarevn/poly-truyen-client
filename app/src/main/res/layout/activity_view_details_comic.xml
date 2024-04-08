@@ -18,7 +18,7 @@
         android:layout_width="28sp"
         android:layout_height="28sp" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:fillViewport="true"
         android:isScrollContainer="true"
         android:layout_width="match_parent"
@@ -60,7 +60,7 @@
                     <TextView
                         android:id="@+id/tvComicName"
                         android:textColor="#050505"
-                        android:textSize="17sp"
+                        android:textSize="20sp"
                         android:textStyle="bold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -183,7 +183,7 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
 </LinearLayout>

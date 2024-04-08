@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,13 +25,9 @@ import com.example.poly_truyen_client.api.ComicServices;
 import com.example.poly_truyen_client.api.ConnectAPI;
 import com.example.poly_truyen_client.api.HistoryServices;
 import com.example.poly_truyen_client.models.Comic;
-import com.example.poly_truyen_client.models.History;
 import com.example.poly_truyen_client.models.User;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -65,7 +60,14 @@ public class ComicsAdapter extends RecyclerView.Adapter<ComicsAdapter.ComicViewH
     @NonNull
     @Override
     public ComicViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ComicViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.comic_item, parent, false));
+        int layout_type;
+        if (isSmaller) {
+            layout_type = R.layout.comic_item;
+        } else {
+            layout_type = R.layout.comic_item_backup; // comic_item_backup
+        }
+
+        return new ComicViewHolder(LayoutInflater.from(parent.getContext()).inflate(layout_type, parent, false));
     }
 
     @Override
@@ -73,32 +75,32 @@ public class ComicsAdapter extends RecyclerView.Adapter<ComicsAdapter.ComicViewH
         historyServices = new ConnectAPI().connect.create(HistoryServices.class);
         comicServices = new ConnectAPI().connect.create(ComicServices.class);
 
-        if (isSmaller) {
-            // Setting width, height programmatically
-            int V = context.getResources().getDimensionPixelSize(R.dimen.comic_item_smaller_v); // Get padding in pixels
-            int H = context.getResources().getDimensionPixelSize(R.dimen.comic_item_smaller_h); // Get padding in pixels
-
-            int marginInPx = context.getResources().getDimensionPixelSize(R.dimen.comic_item_smaller_margin); // Get margin in pixels
-
-            // Set CardView layout parameters
-            CardView.LayoutParams layoutParams = new CardView.LayoutParams(CardView.LayoutParams.WRAP_CONTENT, H);
-            layoutParams.setMargins(marginInPx, marginInPx, marginInPx, marginInPx);
-            holder.item_card_view.setLayoutParams(layoutParams);
-
-            // Set FrameLayout layout parameters
-            FrameLayout.LayoutParams layoutParamsFrame = new FrameLayout.LayoutParams(V, FrameLayout.LayoutParams.MATCH_PARENT);
-            holder.item_frame.setLayoutParams(layoutParamsFrame);
-
-            // Set ImageView layout parameters
-            ViewGroup.LayoutParams layoutParamsImage = holder.ivPoster.getLayoutParams();
-            layoutParamsImage.width = V;
-            layoutParamsImage.height = V;
-            holder.ivPoster.setLayoutParams(layoutParamsImage);
-
-            holder.tvName.setTextSize(12);
-
-            holder.tvCountComment.setVisibility(View.GONE);
-        }
+//        if (isSmaller) {
+//            // Setting width, height programmatically
+//            int V = context.getResources().getDimensionPixelSize(R.dimen.comic_item_smaller_v); // Get padding in pixels
+//            int H = context.getResources().getDimensionPixelSize(R.dimen.comic_item_smaller_h); // Get padding in pixels
+//
+//            int marginInPx = context.getResources().getDimensionPixelSize(R.dimen.comic_item_smaller_margin); // Get margin in pixels
+//
+//            // Set CardView layout parameters
+//            CardView.LayoutParams layoutParams = new CardView.LayoutParams(CardView.LayoutParams.WRAP_CONTENT, H);
+//            layoutParams.setMargins(marginInPx, marginInPx, marginInPx, marginInPx);
+//            holder.item_card_view.setLayoutParams(layoutParams);
+//
+//            // Set FrameLayout layout parameters
+//            FrameLayout.LayoutParams layoutParamsFrame = new FrameLayout.LayoutParams(V, FrameLayout.LayoutParams.MATCH_PARENT);
+//            holder.item_frame.setLayoutParams(layoutParamsFrame);
+//
+//            // Set ImageView layout parameters
+//            ViewGroup.LayoutParams layoutParamsImage = holder.ivPoster.getLayoutParams();
+//            layoutParamsImage.width = V;
+//            layoutParamsImage.height = V;
+//            holder.ivPoster.setLayoutParams(layoutParamsImage);
+//
+//            holder.tvName.setTextSize(12);
+//
+//            holder.tvCountComment.setVisibility(View.GONE);
+//        }
 
 
         sharedPreferences = context.getSharedPreferences("poly_comic", Context.MODE_PRIVATE);
@@ -116,27 +118,8 @@ public class ComicsAdapter extends RecyclerView.Adapter<ComicsAdapter.ComicViewH
             context.startActivity(new Intent(context, ViewDetailsComicActivity.class).putExtra("comic", new Gson().toJson(comic)));
         });
 
-        holder.tvCountViews.setText(comic.getViews() + " Views");
-
-        Call<ComicServices.CommentCount> getCount = comicServices.getCountComment(comic.get_id());
-        getCount.enqueue(new Callback<ComicServices.CommentCount>() {
-            @Override
-            public void onResponse(Call<ComicServices.CommentCount> call, Response<ComicServices.CommentCount> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    ComicServices.CommentCount count = response.body();
-                    try {
-                        holder.tvCountComment.setText(count.getCount() + " Comments");
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ComicServices.CommentCount> call, Throwable throwable) {
-                Toast.makeText(context, "ERROR, Failed to get count of comment for comics!", Toast.LENGTH_SHORT).show();
-            }
-        });
+        holder.tvCountViews.setText(comic.getViews());
+        holder.tvCountComment.setText(comic.getComments());
 
     }
 

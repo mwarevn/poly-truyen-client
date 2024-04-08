@@ -2,6 +2,7 @@ package com.example.poly_truyen_client.ui.popular_pager;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,14 +15,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import com.example.poly_truyen_client.R;
 import com.example.poly_truyen_client.adapters.ComicsAdapter;
 import com.example.poly_truyen_client.api.ComicServices;
 import com.example.poly_truyen_client.api.ConnectAPI;
 import com.example.poly_truyen_client.models.Comic;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -63,7 +67,8 @@ public class PopularFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         comicServices = new ConnectAPI().connect.create(ComicServices.class);
-        comicsAdapter = new ComicsAdapter(new ArrayList<Comic>(), getActivity(), false);
+        comicsAdapter = new ComicsAdapter(new ArrayList<Comic>(), getActivity(), true);
+
 
         tvTopType = view.findViewById(R.id.tvTopType);
         rvPopular = view.findViewById(R.id.rvPopular);
@@ -83,15 +88,16 @@ public class PopularFragment extends Fragment {
 
         rvPopular.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         rvPopular.setAdapter(comicsAdapter);
-
+//
         getListPopular();
 
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
-        getListPopular();
+//        getListPopular();
     }
 
     void getListPopular() {
@@ -112,4 +118,8 @@ public class PopularFragment extends Fragment {
             }
         });
     }
+
+
+
+
 }

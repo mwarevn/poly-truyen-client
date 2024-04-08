@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:paddingHorizontal="25sp"
-    android:paddingVertical="8sp"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="280sp"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:paddingHorizontal="25sp"
+    android:paddingVertical="8sp"
     tools:context=".ui.popular_pager.PopularFragment">
+
+    <!--    280sp -->
+
     <TextView
-        android:textColor="#FF5722"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:layout_marginBottom="5sp"
         android:id="@+id/tvTopType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Top truyện hot hôm nay" />
+        android:layout_marginBottom="5sp"
+        android:text="Top truyện hot hôm nay"
+        android:textColor="#000"
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/rvPopular"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rvPopular"/>
+
 
 
 

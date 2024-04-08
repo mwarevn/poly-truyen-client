@@ -35,6 +35,14 @@ public class DataConvertion {
         dialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     }
 
+    public String shortDesc(String content) {
+        if (content.split("").length <= 150) {
+            return content;
+        } else {
+            return content.substring(0, 145) + ".....";
+        }
+    }
+
     public void setRecyclerViewHeight(RecyclerView recyclerView) {
         int totalHeight = 0;
         for (int i = 0; i < recyclerView.getAdapter().getItemCount(); i++) {
