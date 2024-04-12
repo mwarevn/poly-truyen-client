@@ -4,4 +4,5 @@
 
 # Demo
 
-https://youtu.be/3IzpsS-VOFQ
+- Demo Client: https://youtu.be/3IzpsS-VOFQ
+- Demo server: https://youtu.be/8DMe0OpTRos
